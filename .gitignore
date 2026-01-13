@@ -1,0 +1,40 @@
+# dependencies
+node_modules/
+
+# build
+dist/
+
+# env
+.env
+
+# logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+
+# IDE
+.vscode
+.idea
+
+# TypeScript
+*.tsbuildinfo
+# Temporary files
+*.tmp
+*.temp
+# Coverage
+coverage/
+.nyc_output/
+
+# Redis
+dump.rdb
+# BullMQ
+bull-board/
+bull-data/
+# Misc
+.cache/
+package-lock.json

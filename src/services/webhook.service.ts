@@ -10,16 +10,16 @@ export const WebhookService = {
       due_date: todo.due_date,
     });
     if (todo.due_date) {
-      const prefs = await PreferenceService.get(todo.user_id);
-      const reminderMinutes = prefs?.reminder_time || 3;
+    //   const prefs = await PreferenceService.get(todo.user_id);
+      const reminderMinutes = 3;
       await SchedulerService.scheduleReminder(todo.id, todo.due_date, reminderMinutes);
     }
   },
 
   handleTodoUpdated: async (todo: any) => {
     if (todo.due_date) {
-      const prefs = await PreferenceService.get(todo.user_id);
-      const reminderMinutes = prefs?.reminder_time || 3;
+    //   const prefs = await PreferenceService.get(todo.user_id);
+      const reminderMinutes = 3;
       await SchedulerService.scheduleReminder(todo.id, todo.due_date, reminderMinutes);
     } else {
       const job = await notificationQueue.getJob(`reminder-${todo.id}`);

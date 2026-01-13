@@ -4,19 +4,22 @@ export const NotificationService = {
   createManual: async (
   todo_id: string,
   message: string,
-  type: string = "TODO_EVENT"
+  type: string = "TODO_EVENT",
+  title: string = "Todo Notification",
 ) => {
   const query = `
-    mutation ($todo_id: uuid!, $message: String!, $type: String!) {
+    mutation ($todo_id: uuid!, $title: String!, $message: String!, $type: String!) {
       insert_notifications_one(
         object: {
           todo_id: $todo_id
+          title: $title
           message: $message
           type: $type
         }
       ) {
         id
         message
+        title
         type
         is_read
         created_at
@@ -26,6 +29,7 @@ export const NotificationService = {
 
   const data = await hasuraRequest(query, {
     todo_id,
+    title,
     message,
     type
   });

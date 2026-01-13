@@ -1,6 +1,18 @@
-import { Redis } from "ioredis";
-import { env } from "./env";
+import IORedis from "ioredis";
 
-export const redis = new Redis(env.REDIS_URL, {
-  maxRetriesPerRequest: null
+if (!process.env.REDIS_URL) {
+  throw new Error("REDIS_URL is not defined");
+}
+
+export const redis = new IORedis(process.env.REDIS_URL, {
+  maxRetriesPerRequest: null,
+  enableReadyCheck: false,
+});
+
+redis.on("connect", () => {
+  console.log("✅ Redis connected");
+});
+
+redis.on("error", (err) => {
+  console.error("❌ Redis error", err);
 });

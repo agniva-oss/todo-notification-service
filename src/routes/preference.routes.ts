@@ -1,7 +1,8 @@
 import { Router } from "express";
-import { getPreference } from "../controllers/preference.controller";
+import { getPreference, updatePreference } from "../controllers/preference.controller";
 
 const router = Router();
-router.get("/:userId", getPreference);
+router.get("/:id/preferences", getPreference);
+router.put("/:id/preferences", updatePreference);
 
 export default router;

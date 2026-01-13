@@ -6,15 +6,17 @@ export const NotificationService = {
   message: string,
   type: string = "TODO_EVENT",
   title: string = "Todo Notification",
+  due_date?: string,
 ) => {
   const query = `
-    mutation ($todo_id: uuid!, $title: String!, $message: String!, $type: String!) {
+    mutation ($todo_id: uuid!, $title: String!, $message: String!, $type: String!, $due_date: timestamptz) {
       insert_notifications_one(
         object: {
           todo_id: $todo_id
           title: $title
           message: $message
           type: $type
+          due_date: $due_date
         }
       ) {
         id
@@ -23,6 +25,7 @@ export const NotificationService = {
         type
         is_read
         created_at
+        due_date
       }
     }
   `;
@@ -31,7 +34,8 @@ export const NotificationService = {
     todo_id,
     title,
     message,
-    type
+    type,
+    due_date
   });
 
   return data.insert_notifications_one;

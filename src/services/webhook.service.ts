@@ -4,9 +4,6 @@ import { PreferenceService } from "./preference.service";
 
 export const WebhookService = {
   handleTodoCreated: async (todo: any) => {
-    console.log(todo.title, 'todo title');
-    console.log(todo, 'todo data');
-    console.log(todo.due_date, 'due date');
     await notificationQueue.add("todo-created", {
       todo_id: todo.id,
       message: `New todo created: ${todo.title}`,

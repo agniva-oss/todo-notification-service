@@ -1,22 +1,35 @@
 import { hasuraRequest } from "../config/hasura";
 
 export const NotificationService = {
-  createManual: async (todo_id: string, message: string) => {
+  createManual: async (
+  todo_id: string,
+  message: string,
+  type: string = "TODO_EVENT"
+) => {
   const query = `
-    mutation ($todo_id: uuid!, $message: String!) {
-      insert_notifications_one(object: {
-        todo_id: $todo_id,
-        message: $message
-      }) {
+    mutation ($todo_id: uuid!, $message: String!, $type: String!) {
+      insert_notifications_one(
+        object: {
+          todo_id: $todo_id
+          message: $message
+          type: $type
+        }
+      ) {
         id
         message
+        type
         is_read
         created_at
       }
     }
   `;
 
-  const data = await hasuraRequest(query, { todo_id, message });
+  const data = await hasuraRequest(query, {
+    todo_id,
+    message,
+    type
+  });
+
   return data.insert_notifications_one;
 },
 

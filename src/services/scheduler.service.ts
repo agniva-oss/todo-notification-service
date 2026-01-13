@@ -1,7 +1,7 @@
 import { notificationQueue } from "../queues/notification.queue";
 
 export const SchedulerService = {
-  scheduleReminder: async (todo_id: string, due_date: string, reminderMinutes: number = 30) => {
+  scheduleReminder: async (todo_id: string, due_date: string, reminderMinutes: number = 3) => {
     const dueDate = new Date(due_date);
     const reminderTime = new Date(dueDate.getTime() - reminderMinutes * 60 * 1000);
     const now = new Date();

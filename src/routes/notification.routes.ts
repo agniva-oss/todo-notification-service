@@ -8,7 +8,7 @@ import {
 const router = Router();
 
 router.get("/", getNotifications);
-router.post("/", createNotification); // ✅ NEW
+router.post("/", createNotification); 
 router.patch("/:id/read", markRead);
 
 export default router;

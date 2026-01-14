@@ -3,26 +3,14 @@ import { NotificationService } from "../services/notification.service";
 import { BaseController } from "../common/base.controller";
 
 const base = new BaseController();
-const notificationService = new NotificationService();
-
-type CreateNotificationBody = {
-  todo_id: string;
-  message: string;
-  title?: string;
-  type?: string;
-  due_date?: string;
-};
 
 type MarkReadParams = {
   id: string;
 };
 
-export const createNotification = async (
-  req: Request<{}, {}, CreateNotificationBody>,
-  res: Response
-) => {
+export const createNotification = async (req: Request, res: Response) => {
   try {
-    const { todo_id, message, title, type, due_date } = req.body;
+    const { todo_id, message } = req.body;
 
     if (!todo_id || !message) {
       return res.status(400).json({
@@ -31,29 +19,23 @@ export const createNotification = async (
       });
     }
 
-    const notification = await notificationService.createManual({
+    const notification = await NotificationService.createManual(
       todo_id,
-      message,
-      title,
-      type,
-      due_date,
-    });
+      message
+    );
 
     base.success(res, notification);
-  } catch (error) {
-    base.error(res, error);
+  } catch (e) {
+    base.error(res, e);
   }
 };
 
-export const getNotifications = async (
-  _req: Request,
-  res: Response
-) => {
+
+export const getNotifications = async (_: Request, res: Response) => {
   try {
-    const notifications = await notificationService.getAll();
-    base.success(res, notifications);
-  } catch (error) {
-    base.error(res, error);
+    base.success(res, await NotificationService.getAll());
+  } catch (e) {
+    base.error(res, e);
   }
 };
 
@@ -64,16 +46,8 @@ export const markRead = async (
   try {
     const { id } = req.params;
 
-    if (!id) {
-      return res.status(400).json({
-        success: false,
-        message: "Notification id is required",
-      });
-    }
-
-    const result = await notificationService.markRead(id);
-    base.success(res, result);
-  } catch (error) {
-    base.error(res, error);
+    base.success(res, await NotificationService.markRead(id));
+  } catch (e) {
+    base.error(res, e);
   }
 };

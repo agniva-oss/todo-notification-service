@@ -2,8 +2,6 @@ import { Worker } from "bullmq";
 import { redis } from "../config/redis";
 import { NotificationService } from "../services/notification.service";
 
-const notificationService = new NotificationService();
-
 new Worker(
   "notifications",
   async (job) => {
@@ -12,7 +10,7 @@ new Worker(
       console.log(job , 'job data in worker');
       const type = job.name === "reminder" ? "REMINDER" : "TODO_EVENT";
       const title = job.name === "reminder" ? "Reminder Notification" : "Todo Notification";
-      await notificationService.createManual({ todo_id, message, type, title, due_date });
+      await NotificationService.createManual(todo_id, message, type, title, due_date);
       console.log(`Notification sent for todo: ${todo_id}`);
     } catch (error) {
       console.error('Error processing notification job:', error);
